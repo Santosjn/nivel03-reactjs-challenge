@@ -8,7 +8,7 @@ import api from '../../services/api';
 
 import Header from '../../components/Header';
 
-import formatValue from '../../utils/formatValue';
+import { formatValue, formatDate } from '../../utils/formatValue';
 
 import { Container, CardContainer, Card, TableContainer } from './styles';
 
@@ -30,12 +30,40 @@ interface Balance {
 }
 
 const Dashboard: React.FC = () => {
-  // const [transactions, setTransactions] = useState<Transaction[]>([]);
-  // const [balance, setBalance] = useState<Balance>({} as Balance);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [balance, setBalance] = useState<Balance>({} as Balance);
 
   useEffect(() => {
     async function loadTransactions(): Promise<void> {
-      // TODO
+      const response = await api.get('/transactions');
+
+      const formattedTransactions = response.data.map(transaction => {
+        console.log(transaction, '----->>transaction<<-----');
+        // {
+        //   "id": "d920bb99-03a9-44e9-af5a-bae434c913b2",
+        //   "title": "Salário",
+        //   "type": "income",
+        //   "value": 3000,
+        //   "created_at": "2020-06-09T00:58:01.883Z",
+        //   "updated_at": "2020-06-09T00:58:01.883Z",
+        //   "category": {
+        //     "id": "5da14d17-e039-4b44-82c7-af9ad2138346",
+        //     "title": "Alimentação",
+        //     "created_at": "2020-06-09T00:58:01.857Z",
+        //     "updated_at": "2020-06-09T00:58:01.857Z"
+        //   }
+        // }
+        return {
+          id: transaction.id,
+          title: transaction.title,
+          value: transaction.value,
+          formattedValue: formatValue(transaction.value),
+          formattedDate: formatDate(transaction.created_at),
+          type: transaction.type,
+          category: { title: transaction.category.title },
+          created_at: transaction.created_at,
+        };
+      });
     }
 
     loadTransactions();
