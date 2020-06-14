@@ -3,7 +3,4 @@ export const formatValue = (value: number): string =>
     value,
   );
 
-export const formatDate = (value: string): Date =>
-  new Intl.DateTimeFormat('pt-BR').format(value);
-
-// export default formatValue;
+export default formatValue;

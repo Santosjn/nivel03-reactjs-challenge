@@ -44,7 +44,10 @@
         "ts": "never",
         "tsx": "never"
       }
-    ]
+    ],
+    "react/jsx-one-expression-per-line": [0],
+    "camelcase": "off",
+    "@typescript-eslint/camelcase": [0]
   },
   "settings": {
     "import/resolver": {
